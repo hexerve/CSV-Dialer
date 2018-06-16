@@ -12,7 +12,7 @@ class CallSample {
         return month;
     }
 
-    public void setMonth(String month) {
+    public void setName(String month) {
         this.month = month;
     }
 
@@ -28,7 +28,7 @@ class CallSample {
         return rain;
     }
 
-    public void setRain(String rain) {
+    public void setPhone(String rain) {
         this.rain = rain;
     }
 }

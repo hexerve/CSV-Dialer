@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(is, Charset.forName("UTF-8"))
         );
+
         String line="";
         try {
             //Step over header
@@ -64,30 +65,25 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MyActivity","Line is "+line);
                 //split by ','
                 String[] tokens = line.split(",");
-
                 //read the data
                 CallSample sample = new CallSample();
                 if (tokens.length>=2&&tokens[1].length()>0) {
-
-                    sample.setMonth(tokens[0]);
+                    sample.setName(tokens[0]);
                 }
-                else sample.setMonth("");
+                else sample.setName("");
 
                 if (tokens.length>=2&&tokens[1].length()>0) {
-                    sample.setRain(tokens[1]);
+                    sample.setPhone(tokens[1]);
                 }
-                else sample.setRain("");
+                else sample.setPhone("");
                 callSamples.add(sample);
-                try {
                     Log.d("MyActivity", "Just Created: " + sample);
                     Log.d("MyActivity", "Just Created2: " + tokens[0]);
                     Log.d("MyActivity", "Just Created2: " + tokens[1]);
-                }catch (Exception e){}
             }
         } catch (IOException e) {
             Log.wtf("MyActivity","Error reading datafile"+line,e);
             e.printStackTrace();
         }
     }
-
 }
