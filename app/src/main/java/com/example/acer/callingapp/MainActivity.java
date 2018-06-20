@@ -1,9 +1,16 @@
 package com.example.acer.callingapp;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Handler;
+import android.provider.CallLog;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,43 +19,184 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText mphoneNo;
-    Button mcall;
-    String phoneNo;
 
+    private String TAG = MainActivity.class.getSimpleName();
+    //    EditText mphoneNo;
+    Button mcall;
+    private static final int PICK_FROM_GALLERY = 101;
+    private static int RESULT_LOAD_IMAGE = 5;
+    int nu = 0;
+    //    Button b;
+    AlertDialog.Builder ab;
+    //    String phoneNo;
+    String num[] = new String[10];
+    int i = 0, count = 0, j = 0;
+    Intent intent;
+
+    public void alert() {
+        ab = new AlertDialog.Builder(MainActivity.this);
+        ab.setTitle("Call Option");
+        ab.setMessage("Select one of the below");
+        ab.setCancelable(false);
+        ab.setPositiveButton("Redial", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                intent.setData(Uri.parse("tel:+91" + num[nu]));
+                startActivity(intent);
+
+                count = 20;
+            }
+        });
+        ab.setNegativeButton("Call Next No.", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                nu++;
+                intent.setData(Uri.parse("tel:+91" + num[nu]));
+                startActivity(intent);
+                count = 20;
+            }
+        });
+//                ab.setIcon()
+        ab.show();
+    }
+
+//    void thread() {
+//
+//    new Handler().
+//
+//    postDelayed(new Runnable() {
+//        @Override
+//        public void run () {
+//            button1.performClick();
+//        }
+//    },5000);
+//}
+//    private String getCallDetails() {
+//
+//        StringBuffer sb = new StringBuffer();
+//        Cursor managedCursor = managedQuery(CallLog.Calls.CONTENT_URI, null,
+//                null, null, null);
+//        int number = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
+//        int type = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
+//        int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+//        int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
+////        Log.d(TAG, "getCallDetails: "+duration);
+////        Log.d(TAG, "getCallDetails: "+number);
+//        sb.append("Call Details :");
+//        while (managedCursor.moveToNext()) {
+//            String phNumber = managedCursor.getString(number);
+//            String callType = managedCursor.getString(type);
+//            String callDate = managedCursor.getString(date);
+//            Date callDayTime = new Date(Long.valueOf(callDate));
+//
+//            String callDuration = managedCursor.getString(duration);
+//            Log.d(TAG, "getCallDetails: "+callDuration);
+//            Log.d(TAG, "getCallDetails: "+phNumber);
+//            String dir = null;
+//            int dircode = Integer.parseInt(callType);
+//            switch (dircode) {
+//                case CallLog.Calls.OUTGOING_TYPE:
+//                    dir = "OUTGOING";
+//                    break;
+//
+//                case CallLog.Calls.INCOMING_TYPE:
+//                    dir = "INCOMING";
+//                    break;
+//
+//                case CallLog.Calls.MISSED_TYPE:
+//                    dir = "MISSED";
+//                    break;
+//            }
+//            sb.append("\nPhone Number:--- " + phNumber + " \nCall Type:--- "
+//                    + dir + " \nCall Date:--- " + callDayTime
+//                    + " \nCall duration in sec :--- " + callDuration);
+//            sb.append("\n----------------------------------");
+//        }
+//        managedCursor.close();
+//        return sb.toString();
+//
+//    }
+
+//    public void log(){
+//        Uri allCalls = Uri.parse("content://call_log/calls");
+//        Cursor c = managedQuery(allCalls, null, null, null, null);
+//
+//        String num= c.getString(c.getColumnIndex(CallLog.Calls.NUMBER));// for  number
+//        String name= c.getString(c.getColumnIndex(CallLog.Calls.CACHED_NAME));// for name
+//        String duration = c.getString(c.getColumnIndex(CallLog.Calls.DURATION));// for duration
+//        Log.d(TAG, "log: "+duration + "\nNUM:"+num);
+//        int type = Integer.parseInt(c.getString(c.getColumnIndex(CallLog.Calls.TYPE)));// for call type, Incoming or out going.
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//        log();
+//        getCallDetails();
         readCallingData();
 
-        mphoneNo = (EditText) findViewById(R.id.phoneNo);
-        mcall = (Button) findViewById(R.id.call);
+//        mphoneNo = (EditText) findViewById(R.id.phone);
 
+        mcall = (Button) findViewById(R.id.call);
         mcall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                phoneNo = mphoneNo.getText().toString();
-                Intent intent = new Intent(Intent.ACTION_CALL);
+                i = 1;
+//                phoneNo = mphoneNo.getText().toString();
+                intent = new Intent(Intent.ACTION_CALL);
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != getPackageManager().PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
                     return;
                 }
-                intent.setData(Uri.parse("tel:+91" + phoneNo));
+                intent.setData(Uri.parse("tel:+91" + num[0]));
+//                Log.d(TAG, "onClick: " + num[1]);
+//                startActivity(intent);
+                count = 20;
                 startActivity(intent);
+
+//                alert();
+                Log.i("helloo","asgsa");
+//                count = 10;
+//                i++;
+                Log.d("MyActivity", "asda");
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: "+count);
+        if (count==20){
+            count=10;
+        alert();
+        }
+        super.onResume();
+
+    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        Log.i("hello","asdgsjb");
+//        if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK && data != null) {
+//            alert();
+//        }
+//        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
+
+
     private List<CallSample> callSamples = new ArrayList<>();
 
     private void readCallingData() {
@@ -56,34 +204,74 @@ public class MainActivity extends AppCompatActivity {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(is, Charset.forName("UTF-8"))
         );
-
-        String line="";
+        String line = "";
         try {
-            //Step over header
+//            Step over header
             reader.readLine();
             while ((line = reader.readLine()) != null) {
-                Log.d("MyActivity","Line is "+line);
-                //split by ','
+                Log.d("MyActivity", "Line is " + line);
+//                split by ','
                 String[] tokens = line.split(",");
-                //read the data
-                CallSample sample = new CallSample();
-                if (tokens.length>=2&&tokens[1].length()>0) {
-                    sample.setName(tokens[0]);
-                }
-                else sample.setName("");
-
-                if (tokens.length>=2&&tokens[1].length()>0) {
-                    sample.setPhone(tokens[1]);
-                }
-                else sample.setPhone("");
-                callSamples.add(sample);
-                    Log.d("MyActivity", "Just Created: " + sample);
-                    Log.d("MyActivity", "Just Created2: " + tokens[0]);
-                    Log.d("MyActivity", "Just Created2: " + tokens[1]);
+//
+//                read the data
+//
+                num[j] = tokens[1];
+                Log.d("MyActivity", "Numbers:" + num[j]);
+                Log.d(TAG, "readCallingData: "+num[0]);
+                j++;
+//                CallSample sample = new CallSample();
+//                if (tokens.length >= 2 && tokens[1].length() > 0) {
+//                    sample.setName(tokens[0]);
+//                } else sample.setName("");
+//                if (tokens.length >= 2 && tokens[1].length() > 0) {
+//                    sample.setPhone(tokens[1]);
+//                } else sample.setPhone("");
+//                callSamples.add(sample);
+//                Log.d("MyActivity", "Just Created: " + sample);
+//                Log.d("MyActivity", "Just Created2: " + tokens[0]);
+//                Log.d("MyActivity", "Just Created2: " + tokens[1]);
             }
         } catch (IOException e) {
-            Log.wtf("MyActivity","Error reading datafile"+line,e);
+            Log.wtf("MyActivity", "Error reading datafile" + line, e);
             e.printStackTrace();
         }
     }
 }
+//    @Override
+//    protected void onResume() {
+//        Toast.makeText(this, "resume", Toast.LENGTH_SHORT).show();
+//        if (i==0){
+//        }
+////        else if (num[i].equals("")) {
+////        }
+//        else if (i > 0 && count == 10) {
+//            Log.d(TAG, "onResumeIfCondition: "+i+"::"+num[i]);
+//            intent.setData(Uri.parse("tel:+91" + num[i]));
+//            startActivity(intent);
+//            i++;
+//        }
+////        if (i>2){
+////            intent.setData(Uri.parse("tel:+91" + num[i]));
+////            startActivityForResult(intent,0);
+////        }
+//        Log.d(TAG, "onResumeMethord: "+i);
+//        super.onResume();
+//    }
+
+
+//    @Override
+//    protected void onResume() {
+//        if (i==1){
+//        }
+//        else if (num[i].equals("")) {
+//
+//        }
+//        else if (i > 1 && count == 10) {
+//            Log.d(TAG, "onResume: ");
+//            intent.setData(Uri.parse("tel:+91" + num[i]));
+//            startActivityForResult(intent, 0);
+//            i++;
+//        }
+//            super.onResume();
+//
+//    }

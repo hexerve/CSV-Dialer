@@ -27,7 +27,6 @@ class CallSample {
     public String getRain() {
         return rain;
     }
-
     public void setPhone(String rain) {
         this.rain = rain;
     }
