@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 public class Splash extends AppCompatActivity {
 
+    static int SPLASH_TIME_OUT = 4000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,7 +18,7 @@ public class Splash extends AppCompatActivity {
 
             @Override
             public void run() {
-                Intent homeIntent = new Intent(Welcome.this,MainActivity.class);
+                Intent homeIntent = new Intent(Splash.this,MainActivity.class);
                 startActivity(homeIntent);
             }
         },SPLASH_TIME_OUT);

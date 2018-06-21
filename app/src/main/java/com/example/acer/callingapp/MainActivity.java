@@ -1,8 +1,10 @@
 package com.example.acer.callingapp;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 
 import android.os.Handler;
@@ -19,7 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,36 +34,44 @@ public class MainActivity extends AppCompatActivity {
     private static final int PICK_FROM_GALLERY = 101;
     private static int RESULT_LOAD_IMAGE = 5;
     int nu = 0;
+    int called;
+    String todayDate;
     //    Button b;
     AlertDialog.Builder ab;
     //    String phoneNo;
     String num[] = new String[10];
-    int i = 0, count = 0, j = 0;
+    int i = 0, count = 0, j = 0,dial = 2;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     Intent intent;
 
     public void alert() {
-        ab = new AlertDialog.Builder(MainActivity.this);
-        ab.setTitle("Call Option");
-        ab.setMessage("Select one of the below");
-        ab.setCancelable(false);
-        ab.setPositiveButton("Redial", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                intent.setData(Uri.parse("tel:+91" + num[nu]));
-                startActivity(intent);
-
-                count = 20;
-            }
-        });
-        ab.setNegativeButton("Call Next No.", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                nu++;
-                intent.setData(Uri.parse("tel:+91" + num[nu]));
-                startActivity(intent);
-                count = 20;
-            }
-        });
+        Log.d(TAG, "alert: "+called);
+        if(called<500) {
+            ab = new AlertDialog.Builder(MainActivity.this);
+            ab.setTitle("Call Option");
+            ab.setMessage("Select one of the below");
+            ab.setCancelable(false);
+            ab.setPositiveButton("Redial", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    intent.setData(Uri.parse("tel:+91" + num[nu]));
+                    startActivity(intent);
+                    dial++;
+                    count = 20;
+                }
+            });
+            ab.setNegativeButton("Call Next No.", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    nu++;
+                    dial++;
+                    intent.setData(Uri.parse("tel:+91" + num[nu]));
+                    startActivity(intent);
+                    count = 20;
+                }
+            });
+        }
 //                ab.setIcon()
         ab.show();
     }
