@@ -3,12 +3,9 @@ package com.example.acer.callingapp;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
+
 import android.os.Handler;
-import android.provider.CallLog;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,24 +13,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private String TAG = MainActivity.class.getSimpleName();
-    //    EditText mphoneNo;
-    Button mcall;
+    Button mcall,mBrowse;
     private static final int PICK_FROM_GALLERY = 101;
     private static int RESULT_LOAD_IMAGE = 5;
     int nu = 0;
@@ -142,18 +134,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Delay();
+
+        mBrowse = (Button) findViewById(R.id.browse);
+
 //        log();
 //        getCallDetails();
         readCallingData();
 
-//        mphoneNo = (EditText) findViewById(R.id.phone);
 
         mcall = (Button) findViewById(R.id.call);
         mcall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 i = 1;
-//                phoneNo = mphoneNo.getText().toString();
                 intent = new Intent(Intent.ACTION_CALL);
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != getPackageManager().PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
@@ -164,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(intent);
                 count = 20;
                 startActivity(intent);
-
 //                alert();
                 Log.i("helloo","asgsa");
 //                count = 10;
@@ -173,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     @Override
     protected void onResume() {
         Log.d(TAG, "onResume: "+count);
@@ -182,20 +174,7 @@ public class MainActivity extends AppCompatActivity {
         alert();
         }
         super.onResume();
-
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        Log.i("hello","asdgsjb");
-//        if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK && data != null) {
-//            alert();
-//        }
-//        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
-
 
     private List<CallSample> callSamples = new ArrayList<>();
 
@@ -212,66 +191,25 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MyActivity", "Line is " + line);
 //                split by ','
                 String[] tokens = line.split(",");
-//
 //                read the data
-//
                 num[j] = tokens[1];
                 Log.d("MyActivity", "Numbers:" + num[j]);
                 Log.d(TAG, "readCallingData: "+num[0]);
                 j++;
-//                CallSample sample = new CallSample();
-//                if (tokens.length >= 2 && tokens[1].length() > 0) {
-//                    sample.setName(tokens[0]);
-//                } else sample.setName("");
-//                if (tokens.length >= 2 && tokens[1].length() > 0) {
-//                    sample.setPhone(tokens[1]);
-//                } else sample.setPhone("");
-//                callSamples.add(sample);
-//                Log.d("MyActivity", "Just Created: " + sample);
-//                Log.d("MyActivity", "Just Created2: " + tokens[0]);
-//                Log.d("MyActivity", "Just Created2: " + tokens[1]);
             }
         } catch (IOException e) {
             Log.wtf("MyActivity", "Error reading datafile" + line, e);
             e.printStackTrace();
         }
     }
+    public void Delay(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "run: ");
+                //Do something after 100ms
+            }
+        }, 5000);
+    }
 }
-//    @Override
-//    protected void onResume() {
-//        Toast.makeText(this, "resume", Toast.LENGTH_SHORT).show();
-//        if (i==0){
-//        }
-////        else if (num[i].equals("")) {
-////        }
-//        else if (i > 0 && count == 10) {
-//            Log.d(TAG, "onResumeIfCondition: "+i+"::"+num[i]);
-//            intent.setData(Uri.parse("tel:+91" + num[i]));
-//            startActivity(intent);
-//            i++;
-//        }
-////        if (i>2){
-////            intent.setData(Uri.parse("tel:+91" + num[i]));
-////            startActivityForResult(intent,0);
-////        }
-//        Log.d(TAG, "onResumeMethord: "+i);
-//        super.onResume();
-//    }
-
-
-//    @Override
-//    protected void onResume() {
-//        if (i==1){
-//        }
-//        else if (num[i].equals("")) {
-//
-//        }
-//        else if (i > 1 && count == 10) {
-//            Log.d(TAG, "onResume: ");
-//            intent.setData(Uri.parse("tel:+91" + num[i]));
-//            startActivityForResult(intent, 0);
-//            i++;
-//        }
-//            super.onResume();
-//
-//    }
