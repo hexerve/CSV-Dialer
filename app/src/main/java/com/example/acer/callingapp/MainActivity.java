@@ -1,15 +1,11 @@
 package com.example.acer.callingapp;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,34 +16,23 @@ import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private String TAG = MainActivity.class.getSimpleName();
     Button mcall,mBrowse;
-    private static final int PICK_FROM_GALLERY = 101;
     private static int RESULT_LOAD_IMAGE = 5;
     int nu = 0;
     int called;
-    String todayDate;
-    //    Button b;
     AlertDialog.Builder ab;
-    //    String phoneNo;
     String num[] = new String[500];
     int i = 0, count = 0, j = 0,dial = 2;
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
     Intent intent;
 
     public void alert() {
@@ -77,21 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-//                ab.setIcon()
         ab.show();
     }
 
-//    void thread() {
-//
-//    new Handler().
-//
-//    postDelayed(new Runnable() {
-//        @Override
-//        public void run () {
-//            button1.performClick();
-//        }
-//    },5000);
-//}
 //    private String getCallDetails() {
 //
 //        StringBuffer sb = new StringBuffer();
@@ -152,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Delay();
 
         mBrowse = (Button) findViewById(R.id.browse);
         mBrowse.setOnClickListener(new View.OnClickListener() {
@@ -166,11 +138,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        log();
-//        getCallDetails();
-//        readCallingData();
-
-
         mcall = (Button) findViewById(R.id.call);
         mcall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,11 +149,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 intent.setData(Uri.parse("tel:+91" + num[0]));
-//                Log.d(TAG, "onClick: " + num[1]);
-//                startActivity(intent);
                 count = 20;
                 startActivity(intent);
-//                alert();
                 Log.i("helloo","asgsa");
 //                count = 10;
 //                i++;
@@ -201,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
 
             Uri uri = data.getData();
             String text = uri.toString();
-            File f = new File(text);
             try {
                 Log.d("attachment: ", "asd" + text);
                 InputStream in = getContentResolver().openInputStream(uri);
@@ -246,42 +209,5 @@ public class MainActivity extends AppCompatActivity {
         alert();
         }
         super.onResume();
-    }
-
-    private List<CallSample> callSamples = new ArrayList<>();
-
-    private void readCallingData() {
-        InputStream is = getResources().openRawResource(R.raw.data);
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(is, Charset.forName("UTF-8"))
-        );
-        String line = "";
-        try {
-//            Step over header
-            reader.readLine();
-            while ((line = reader.readLine()) != null) {
-                Log.d("MyActivity", "Line is " + line);
-//                split by ','
-                String[] tokens = line.split(",");
-//                read the data
-                num[j] = tokens[1];
-                Log.d("MyActivity", "Numbers:" + num[j]);
-                Log.d(TAG, "readCallingData: "+num[0]);
-                j++;
-            }
-        } catch (IOException e) {
-            Log.wtf("MyActivity", "Error reading datafile" + line, e);
-            e.printStackTrace();
-        }
-    }
-    public void Delay(){
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "run: ");
-                //Do something after 100ms
-            }
-        }, 5000);
     }
 }
