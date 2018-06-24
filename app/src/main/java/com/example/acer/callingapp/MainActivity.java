@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     //    Button b;
     AlertDialog.Builder ab;
     //    String phoneNo;
-    String num[] = new String[10];
+    String num[] = new String[500];
     int i = 0, count = 0, j = 0,dial = 2;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -159,14 +161,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setType("text/csv");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,"Select Picture"),RESULT_LOAD_IMAGE);
+                startActivityForResult(intent,RESULT_LOAD_IMAGE);
                 Log.i("helloo","asgsa");
             }
         });
 
 //        log();
 //        getCallDetails();
-        readCallingData();
+//        readCallingData();
 
 
         mcall = (Button) findViewById(R.id.call);
@@ -196,17 +198,45 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
-//            Uri uri =data.getData();
-//            try {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-//                imageView.setImageBitmap(bitmap);
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+
+            Uri uri = data.getData();
+            String text = uri.toString();
+            File f = new File(text);
+            try {
+                Log.d("attachment: ", "asd" + text);
+                InputStream in = getContentResolver().openInputStream(uri);
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(in, Charset.forName("UTF-8"))
+                );
+                String line = "";
+                Log.d("attachment4: ", "asd" + text);
+
+//            Step over header
+                reader.readLine();
+                while ((line = reader.readLine()) != null) {
+                    Log.d("MyActivity", "Line is " + line);
+//                split by ','
+                    String[] tokens = line.split(",");
+//                read the data
+                    num[j] = tokens[1];
+                    Log.d("MyActivity", "Numbers:" + num[j]);
+                    j++;
+
+
+//                    FileInputStream is = new FileInputStream(f); // Fails on this line
+//                    int size = is.available();
+//                    byte[] buffer = new byte[size];
+//                    is.read(buffer);
+//                    is.close();
+//                    text = new String(buffer);
+//                    Log.d("attachment: ", text);
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            super.onActivityResult(requestCode, resultCode, data);
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
     @Override
     protected void onResume() {
