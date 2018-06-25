@@ -17,14 +17,11 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,29 +30,22 @@ public class MainActivity extends AppCompatActivity {
     private static int RESULT_LOAD_IMAGE = 5;
     static int nu = 0,i = 0, count = 0, j = 0,dial = 2;
     int called;
-    AlertDialog.Builder ab;
+    AlertDialog ab;
     String num[] = new String[500];
     static int a = 0;
 
     Intent intent;
 
     public void alert() {
-        Log.d(TAG, "alert: "+called);
-        if(called<500) {
-            ab = new AlertDialog.Builder(MainActivity.this);
+        Log.d(TAG, "alert: " + called);
+        if (called < 500) {
+            ab = new AlertDialog.Builder(this).create();
+
             ab.setTitle("Call Option");
             ab.setMessage("Select one of the below");
             ab.setCancelable(false);
-            ab.setPositiveButton("Redial", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    intent.setData(Uri.parse("tel:+91" + num[nu]));
-                    startActivity(intent);
-                    dial++;
-                    count = 20;
-                }
-            });
-            ab.setNegativeButton("Call Next No.", new DialogInterface.OnClickListener() {
+            ab.setButton(AlertDialog.BUTTON_POSITIVE, "Call Next", new DialogInterface.OnClickListener() {
+
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     nu++;
@@ -63,11 +53,27 @@ public class MainActivity extends AppCompatActivity {
                     intent.setData(Uri.parse("tel:+91" + num[nu]));
                     startActivity(intent);
                     count = 20;
-                    a=1;
+                    a = 1;
                 }
             });
+            ab.setButton(AlertDialog.BUTTON_NEGATIVE, "Redial", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    intent.setData(Uri.parse("tel:+91" + num[nu]));
+                    startActivity(intent);
+                    dial++;
+                    count = 20;
+                }
+            });
+            ab.setButton(AlertDialog.BUTTON_NEUTRAL, "cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    a = 25;
+                    ab.cancel();
+                }
+            });
+            ab.show();
         }
-        ab.show();
     }
 
     private String getCallDetails() {
@@ -94,12 +100,11 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "getCallDetails: "+phNumber);
             String dir = null;
             int dircode = Integer.parseInt(callType);
-
             switch (dircode) {
                 case CallLog.Calls.OUTGOING_TYPE:
                     dir = "OUTGOING";
                     break;
-
+//
                 case CallLog.Calls.INCOMING_TYPE:
                     dir = "INCOMING";
                     break;
@@ -144,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getCallDetails();
+//        getCallDetails();
         mBrowse = (Button) findViewById(R.id.browse);
         mBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void onResume() {
+        if (a!=25)
         a=0;
         Log.d(TAG, "onResume: "+count);
         if (count==20){
