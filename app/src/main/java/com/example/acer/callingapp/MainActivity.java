@@ -3,9 +3,11 @@ package com.example.acer.callingapp;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 
 import android.os.Handler;
+import android.provider.CallLog;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
     Button mcall,mBrowse;
     private static int RESULT_LOAD_IMAGE = 5;
-    int nu = 0;
+    static int nu = 0,i = 0, count = 0, j = 0,dial = 2;
     int called;
     AlertDialog.Builder ab;
     String num[] = new String[500];
-    int i = 0, count = 0, j = 0,dial = 2;
+    static int a = 0;
+
     Intent intent;
 
     public void alert() {
@@ -59,57 +63,60 @@ public class MainActivity extends AppCompatActivity {
                     intent.setData(Uri.parse("tel:+91" + num[nu]));
                     startActivity(intent);
                     count = 20;
+                    a=1;
                 }
             });
         }
         ab.show();
     }
 
-//    private String getCallDetails() {
-//
-//        StringBuffer sb = new StringBuffer();
-//        Cursor managedCursor = managedQuery(CallLog.Calls.CONTENT_URI, null,
-//                null, null, null);
-//        int number = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
-//        int type = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
-//        int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
-//        int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
-////        Log.d(TAG, "getCallDetails: "+duration);
-////        Log.d(TAG, "getCallDetails: "+number);
-//        sb.append("Call Details :");
-//        while (managedCursor.moveToNext()) {
-//            String phNumber = managedCursor.getString(number);
-//            String callType = managedCursor.getString(type);
-//            String callDate = managedCursor.getString(date);
-//            Date callDayTime = new Date(Long.valueOf(callDate));
-//
-//            String callDuration = managedCursor.getString(duration);
-//            Log.d(TAG, "getCallDetails: "+callDuration);
-//            Log.d(TAG, "getCallDetails: "+phNumber);
-//            String dir = null;
-//            int dircode = Integer.parseInt(callType);
-//            switch (dircode) {
-//                case CallLog.Calls.OUTGOING_TYPE:
-//                    dir = "OUTGOING";
-//                    break;
-//
-//                case CallLog.Calls.INCOMING_TYPE:
-//                    dir = "INCOMING";
-//                    break;
-//
-//                case CallLog.Calls.MISSED_TYPE:
-//                    dir = "MISSED";
-//                    break;
-//            }
-//            sb.append("\nPhone Number:--- " + phNumber + " \nCall Type:--- "
-//                    + dir + " \nCall Date:--- " + callDayTime
-//                    + " \nCall duration in sec :--- " + callDuration);
-//            sb.append("\n----------------------------------");
-//        }
-//        managedCursor.close();
-//        return sb.toString();
-//
-//    }
+    private String getCallDetails() {
+
+        StringBuffer sb = new StringBuffer();
+        Cursor managedCursor = managedQuery(CallLog.Calls.CONTENT_URI, null,
+                null, null, null);
+        int number = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
+        int type = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
+        int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+        int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
+        Log.d(TAG, "getCallDetails: "+duration);
+        Log.d(TAG, "getCallDetails: "+number);
+        sb.append("Call Details :");
+        while (managedCursor.moveToNext()) {
+            String phNumber = managedCursor.getString(number);
+            String callType = managedCursor.getString(type);
+            String callDate = managedCursor.getString(date);
+            Date callDayTime = new Date(Long.valueOf(callDate));
+
+            String callDuration = managedCursor.getString(duration);
+            Log.d(TAG, "getCallDetails: "+callDuration+"  :"+callDate + " ");
+
+            Log.d(TAG, "getCallDetails: "+phNumber);
+            String dir = null;
+            int dircode = Integer.parseInt(callType);
+
+            switch (dircode) {
+                case CallLog.Calls.OUTGOING_TYPE:
+                    dir = "OUTGOING";
+                    break;
+
+                case CallLog.Calls.INCOMING_TYPE:
+                    dir = "INCOMING";
+                    break;
+
+                case CallLog.Calls.MISSED_TYPE:
+                    dir = "MISSED";
+                    break;
+            }
+            sb.append("\nPhone Number:--- " + phNumber + " \nCall Type:--- "
+                    + dir + " \nCall Date:--- " + callDayTime
+                    + " \nCall duration in sec :--- " + callDuration);
+            sb.append("\n----------------------------------");
+        }
+        managedCursor.close();
+        return sb.toString();
+
+    }
 
 //    public void log(){
 //        Uri allCalls = Uri.parse("content://call_log/calls");
@@ -121,11 +128,23 @@ public class MainActivity extends AppCompatActivity {
 //        Log.d(TAG, "log: "+duration + "\nNUM:"+num);
 //        int type = Integer.parseInt(c.getString(c.getColumnIndex(CallLog.Calls.TYPE)));// for call type, Incoming or out going.
 //    }
+
+    public void delay(){
+        new Handler().postDelayed(new Runnable(){
+
+            @Override
+            public void run() {
+
+            }
+        },5000);
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getCallDetails();
         mBrowse = (Button) findViewById(R.id.browse);
         mBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,10 +222,28 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void onResume() {
+        a=0;
         Log.d(TAG, "onResume: "+count);
         if (count==20){
             count=10;
-        alert();
+            new Handler().postDelayed(new Runnable(){
+
+                @Override
+                public void run() {
+                    if(a==0){
+                        Log.d(TAG, "run: delay");
+                        nu++;
+                        dial++;
+                        intent.setData(Uri.parse("tel:+91" + num[nu]));
+                        startActivity(intent);
+                        count = 20;
+                        a=0;
+
+                    }
+                }
+            },10000);
+
+            alert();
         }
         super.onResume();
     }
