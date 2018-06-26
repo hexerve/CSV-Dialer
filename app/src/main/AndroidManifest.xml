@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.acer.callingapp">
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
@@ -13,7 +14,7 @@
         android:roundIcon="@mipmap/csvicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SignIn">
+        <activity android:name=".SignUp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".Splash"></activity>
+        <activity android:name=".Splash" />
+        <activity android:name=".SignIn" />
+        <activity android:name=".OTP"></activity>
     </application>
 
 </manifest>

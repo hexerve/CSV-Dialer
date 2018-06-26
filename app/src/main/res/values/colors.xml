@@ -7,6 +7,6 @@
     <color name="color3">#e7e36d</color>
     <color name="backSign">#002e5a</color>
     <color name="white">#ffffff</color>
-
-    <color name="colorAccent">#FF4081</color>
+    <color name="grey">#c2bfbf</color>
+    <color name="colorAccent">#c2bfbf</color>
 </resources>
