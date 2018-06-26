@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/csvicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Splash">
+        <activity android:name=".SignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".SignIn"></activity>
+        <activity android:name=".Splash"></activity>
     </application>
 
 </manifest>
