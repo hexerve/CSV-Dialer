@@ -5,6 +5,8 @@
     <color name="color1">#a4aeed</color>
     <color name="color2">#000000</color>
     <color name="color3">#e7e36d</color>
+    <color name="backSign">#002e5a</color>
+    <color name="white">#ffffff</color>
 
     <color name="colorAccent">#FF4081</color>
 </resources>

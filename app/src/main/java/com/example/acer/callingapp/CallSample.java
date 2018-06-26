@@ -8,12 +8,14 @@ class CallSample {
     private String month;
     private String rain;
 
-    public String getMonth() {
+    public String getMonth()
+    {
         return month;
     }
 
     public void setName(String month) {
         this.month = month;
+
     }
 
     @Override
@@ -24,10 +26,12 @@ class CallSample {
                 '}';
     }
 
-    public String getRain() {
+    public String getRain()
+    {
         return rain;
     }
-    public void setPhone(String rain) {
+    public void setPhone(String rain)
+    {
         this.rain = rain;
     }
 }
