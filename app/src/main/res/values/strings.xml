@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CallingApp</string>
+    <string name="app_name">CSV Auto Dialer</string>
     <string name="sendotp_key">222726AVyhX30Cnpch5b33136a</string>
     <string name="enterphonenumber">Enter your phone number</string>
     <string name="selectcountry">Select country</string>
@@ -9,4 +9,6 @@
     <string name="failed">Verification failed</string>
     <string name="entercode">Please enter the code you received</string>
     <string name="title_activity_sign_inn">SignInn</string>
+    <string name="facebook_app_id">236106663838167</string>
+    <string name="fb_login_protocol_scheme">fb236106663838167</string>
 </resources>

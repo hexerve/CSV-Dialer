@@ -2,12 +2,13 @@ package com.example.acer.callingapp;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Splash extends AppCompatActivity {
+public class Splash extends FragmentActivity {
 
-    static int SPLASH_TIME_OUT = 1000;
+    static int SPLASH_TIME_OUT = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +19,9 @@ public class Splash extends AppCompatActivity {
 
             @Override
             public void run() {
-                Intent homeIntent = new Intent(Splash.this,MainActivity.class);
+                Intent homeIntent = new Intent(Splash.this,SignUp.class);
                 startActivity(homeIntent);
+                finish();
             }
         },SPLASH_TIME_OUT);
     }

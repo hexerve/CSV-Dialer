@@ -7,11 +7,17 @@
     <color name="color3">#e7e36d</color>
     <color name="backSign">#002e5a</color>
     <color name="white">#ffffff</color>
-    <color name="grey">#c2bfbf</color>
-    <color name="colorAccent">#c2bfbf</color>
+    <color name="grey">#5e5e5e</color>
+    <color name="greyy">#9b9999</color>
+    <color name="colorAccent">#ffffff</color>
     <color name="colorAccen">#f973ca</color>
     <color name="WelcomeBack">#117dc6</color>
-    <color name="sendotp_grey">#636363</color>
+    <color name="sendotp_grey">#297373</color>
     <color name="sendotp_medium_grey">#B0B0B0</color>
     <color name="sendotp_light_grey">#D9D9D9</color>
+    <color name="green">#283192</color>
+    <color name="text">#000000</color>
+    <color name="test">#7B1FA2</color>
+    <color name="sample_red">#666666</color>
+    <color name="sample_dark_red">#e9271d</color>
 </resources>
