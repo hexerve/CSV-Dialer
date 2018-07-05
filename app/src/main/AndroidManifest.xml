@@ -2,14 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.acer.callingapp">
 
-    <uses-permission android:name="android.permission.SEND_SMS" />
+    <!--<uses-permission android:name="android.permission.SEND_SMS" />-->
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG" />
-    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+    <!--<uses-permission android:name="android.permission.READ_CALL_LOG" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_CALL_LOG" />-->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--<uses-permission android:name="android.permission.RECEIVE_SMS" />-->
+    <!--<uses-permission android:name="android.permission.READ_SMS" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
 
     <application
         android:allowBackup="true"
@@ -44,7 +44,7 @@
         <activity
             android:name=".SignIn"
             android:screenOrientation="portrait" />
-        <activity android:name=".OTP" />
+        <!--<activity android:name=".OTP" />-->
         <activity
             android:name=".VerificationActivity"
             android:screenOrientation="portrait"
@@ -55,7 +55,7 @@
             android:value="@string/sendotp_key" />
 
         <activity android:name=".Settings" />
-        <activity android:name=".Contact"></activity>
+        <activity android:name=".Main2Activity"></activity>
     </application>
 
 </manifest>

@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 public class OTP extends AppCompatActivity {
@@ -17,10 +14,10 @@ public class OTP extends AppCompatActivity {
 
     public static final String INTENT_PHONENUMBER = "phonenumber";
 
-     static String mPhoneNumber;
-     static String mCountryIso = "+91";
+    static String mPhoneNumber;
+    static String mCountryIso = "+91";
 
-     void tryAndPrefillPhoneNumber(String phone) {
+    void tryAndPrefillPhoneNumber(String phone) {
         mPhoneNumber =phone;
         if (checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
             TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);

@@ -1,19 +1,12 @@
 package com.example.acer.callingapp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Random;
-
-import static com.example.acer.callingapp.R.id.phone;
 
 public class SignIn extends AppCompatActivity {
     String emaill,passs;
@@ -38,14 +31,12 @@ public class SignIn extends AppCompatActivity {
             }
         });
 
-
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 emaill = pass.getText().toString();
                 passs = email.getText().toString();
-
                 count=0;
                 if (emaill.equals("")) {
                     count=10;

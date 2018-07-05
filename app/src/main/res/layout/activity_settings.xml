@@ -22,20 +22,19 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@color/white"
-            android:text="Contact Us" />
+            android:text="Call Support (U.S.A)" />
 
         <Button
-            android:id="@+id/button6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@color/white"
-            android:text="Update "
+            android:text="Pro Version (Coming soon)"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
